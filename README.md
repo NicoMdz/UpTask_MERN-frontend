@@ -1,30 +1,19 @@
-# React + TypeScript + Vite
+#  React + Vite + TailwindCSS + TypeScript
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Proyecto: UpTask MERN
 
-Currently, two official plugins are available:
+Aplicación dirigida a cualquier usuario que desee llevar un administración total de sus proyectos. El usuario es capaz de crear, editar y eliminar proyectos, así como también añadirles tareas y notas. Dentro de cada proyecto el manager del mismo puede incluir colaboradores para que trabajen en conjunto, donde cada rol (manager y colaborador) tiene distintos permisos y autorizaciones. Ideal para trabajo colaborativo dentro de una empresa ya que permite llevar un control del avance de los proyectos.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Conocimientos Aplicados
 
-## Expanding the ESLint configuration
+* **Frontend:** React & TypeScript
+* **CCS:** TailwindCSS 
+* **Rutas y Gestión de Formularios:** React Router Dom, React Hook Form
+* **TanStack Query:** Para consultas y mutaciones al interactuar con peticiones http
+* **Toastify:** Para notificaciones interactivas
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+---
+**Créditos:** Juan Pablo de la Torre Vázquez <br>
+**Plataforma de enseñanza:** Udemy <br>
+**Curso:** React y TypeScript - La Guía Completa Creando +10 Proyectos
