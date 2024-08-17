@@ -1,33 +1,33 @@
 import { Fragment } from "react";
-import { Menu, MenuButton, MenuItems, MenuItem, Transition } from "@headlessui/react";
+import {
+  Menu,
+  MenuButton,
+  MenuItems,
+  MenuItem,
+  Transition,
+} from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import { Link } from "react-router-dom";
-import { useQuery,useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteProject, getProjects } from "@/api/ProjectAPI";
-import { toast } from "react-toastify";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getProjects } from "@/api/ProjectAPI";
+import { useAuth } from "@/hooks/useAuth";
+import { isManager } from "@/utils/policies";
+import DeleteProjectModal from "@/components/projects/DeleteProjectModal";
 
 export default function DashboardPage() {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const { data: user, isLoading: authLoading } = useAuth();
   const { data, isLoading } = useQuery({
     queryKey: ["projects"],
     queryFn: getProjects,
   });
-  
-  const queryClient = useQueryClient()
-  const {mutate} = useMutation({
-    mutationFn: deleteProject,
-    onError: (error) => {
-      toast.error(error.message)
-    },
-    onSuccess: (data) => {
-      toast.success(data)
-      queryClient.invalidateQueries({queryKey: ['projects']})
 
-    }
-  })
 
-  if (isLoading) return "Cargando...";
 
-  if (data)
+
+  if (isLoading && authLoading) return "Cargando...";
+  if (data && user)
     return (
       <>
         <h1 className=" text-5xl font-black">Mis Proyectos</h1>
@@ -57,12 +57,24 @@ export default function DashboardPage() {
               >
                 <div className="flex min-w-0 gap-x-4">
                   <div className="min-w-0 flex-auto space-y-2">
+                    <div className="mb-2">
+                      {isManager(project.manager, user._id) ? (
+                        <p className=" font-bold text-xs bg-indigo-50 uppercase text-indigo-500 border-2 border-indigo-500 rounded-lg inline-block py-1 px-5">
+                          Manager
+                        </p>
+                      ) : (
+                        <p className=" font-bold text-xs bg-green-50 uppercase text-green-500 border-2 border-green-500 rounded-lg inline-block py-1 px-5">
+                          Colaborador
+                        </p>
+                      )}
+                    </div>
                     <Link
                       to={`/projects/${project._id}`}
                       className="text-gray-600 cursor-pointer hover:underline text-3xl font-bold"
                     >
                       {project.projectName}
                     </Link>
+
                     <p className="text-sm text-gray-400">
                       Cliente: {project.clientName}
                     </p>
@@ -98,23 +110,27 @@ export default function DashboardPage() {
                             Ver Proyecto
                           </Link>
                         </MenuItem>
-                        <MenuItem>
-                          <Link
-                            to={`/projects/${project._id}/edit`}
-                            className="block px-3 py-1 text-sm leading-6 text-gray-900"
-                          >
-                            Editar Proyecto
-                          </Link>
-                        </MenuItem>
-                        <MenuItem>
-                          <button
-                            type="button"
-                            className="block px-3 py-1 text-sm leading-6 text-red-500"
-                            onClick={() => mutate(project._id)}
-                          >
-                            Eliminar Proyecto
-                          </button>
-                        </MenuItem>
+                        {isManager(project.manager, user._id) && (
+                          <>
+                            <MenuItem>
+                              <Link
+                                to={`/projects/${project._id}/edit`}
+                                className="block px-3 py-1 text-sm leading-6 text-gray-900"
+                              >
+                                Editar Proyecto
+                              </Link>
+                            </MenuItem>
+                            <MenuItem>
+                              <button
+                                type="button"
+                                className="block px-3 py-1 text-sm leading-6 text-red-500"
+                                onClick={() => navigate(location.pathname + `?deleteProject=${project._id}`)}
+                              >
+                                Eliminar Proyecto
+                              </button>
+                            </MenuItem>
+                          </>
+                        )}
                       </MenuItems>
                     </Transition>
                   </Menu>
@@ -133,6 +149,8 @@ export default function DashboardPage() {
             </Link>
           </p>
         )}
+
+        <DeleteProjectModal />
       </>
     );
 }
