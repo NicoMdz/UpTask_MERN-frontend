@@ -1,4 +1,4 @@
-import { FingerPrintIcon, ShieldCheckIcon, UserIcon } from '@heroicons/react/20/solid'
+import { FingerPrintIcon, UserIcon } from '@heroicons/react/20/solid'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const tabs = [
