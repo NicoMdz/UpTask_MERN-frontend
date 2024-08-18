@@ -13,6 +13,12 @@ Aplicación dirigida a cualquier usuario que desee llevar un administración tot
 * **Toastify:** Para notificaciones interactivas
 
 
+### Usuario Prueba:
+
+* **Correo:** correo@prueba.com
+* **Contraseña:** 12345678
+
+  
 ---
 **Créditos:** Juan Pablo de la Torre Vázquez <br>
 **Plataforma de enseñanza:** Udemy <br>
